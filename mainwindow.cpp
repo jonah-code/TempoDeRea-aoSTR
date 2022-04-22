@@ -10,6 +10,8 @@
 #include <QPen>
 #include <math.h>
 #include <QKeyEvent>
+#include <sys/time.h>
+#include <Windows.h>
 using namespace std;
 
 MainWindow::MainWindow(QWidget *parent)
@@ -31,7 +33,10 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
     if(tecla == 'W'){
         if(corSetada==1){
             acerto+=1;
-            setColor();
+            gettimeofday(&tempo_final, NULL);
+            tempo += (int) (1000 * (tempo_final.tv_sec - tempo_inicial.tv_sec) + (tempo_final.tv_usec - tempo_inicial.tv_usec) / 1000);
+            cout<<tempo;
+            pausa();
         }
         else{
             vidas-=1;
@@ -40,7 +45,10 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
     if(tecla == 'S'){
         if(corSetada==2){
             acerto+=1;
-            setColor();
+            gettimeofday(&tempo_final, NULL);
+            tempo += (int) (1000 * (tempo_final.tv_sec - tempo_inicial.tv_sec) + (tempo_final.tv_usec - tempo_inicial.tv_usec) / 1000);
+            cout<<tempo;
+            pausa();
         }
         else{
             vidas-=1;
@@ -49,7 +57,10 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
     if(tecla == 'A'){
         if(corSetada==3){
             acerto+=1;
-            setColor();
+            gettimeofday(&tempo_final, NULL);
+            tempo += (int) (1000 * (tempo_final.tv_sec - tempo_inicial.tv_sec) + (tempo_final.tv_usec - tempo_inicial.tv_usec) / 1000);
+            cout<<tempo;
+            pausa();
         }
         else{
             vidas-=1;
@@ -58,7 +69,10 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
     if(tecla == 'D'){
         if(corSetada==4){
             acerto+=1;
-            setColor();
+            gettimeofday(&tempo_final, NULL);
+            tempo += (int) (1000 * (tempo_final.tv_sec - tempo_inicial.tv_sec) + (tempo_final.tv_usec - tempo_inicial.tv_usec) / 1000);
+            cout<<tempo;
+            pausa();
         }
         else{
             vidas-=1;
@@ -94,6 +108,18 @@ void MainWindow::paintEvent(QPaintEvent *event)
 
 }
 
+void MainWindow::pausa()
+{
+    int intervalo[5] = {1000,2000,3000,4000,5000};
+    int tempoSetado = intervalo[rand()%5];
+    start= false;
+    repaint();
+    Sleep(tempoSetado);
+    start = true;
+    setColor();
+
+}
+
 void MainWindow::setColor()
 {
     int vetor[4]={1,2,3,4};
@@ -124,6 +150,7 @@ void MainWindow::setColor()
 
 void MainWindow::startGame()
 {
+    gettimeofday(&tempo_inicial, NULL);
     vidas = 9;
     acerto = 0;
     start=true;

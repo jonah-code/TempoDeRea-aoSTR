@@ -1,6 +1,6 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
-
+#include <sys/time.h>
 #include <QMainWindow>
 
 QT_BEGIN_NAMESPACE
@@ -10,17 +10,20 @@ QT_END_NAMESPACE
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
+struct timeval tempo_inicial, tempo_final;
 
 private:
     bool start = false;
     float r,g,b;
     int corSetada;
     int acerto = 0, vidas = 9;
+    float tempo = 0;
 
 public:
     MainWindow(QWidget *parent = nullptr);
      void keyPressEvent(QKeyEvent *event);
      void paintEvent(QPaintEvent *event);
+     void pausa();
      ~MainWindow();
 
 
