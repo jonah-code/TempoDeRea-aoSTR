@@ -17,7 +17,8 @@ private:
     float r,g,b;
     int corSetada;
     int acerto = 0, vidas = 9;
-    float tempo = 0;
+    float tempo = 0, mediaTempoReacao = 0, teste = 10;
+
 
 public:
     MainWindow(QWidget *parent = nullptr);

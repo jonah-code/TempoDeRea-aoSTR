@@ -28,63 +28,85 @@ MainWindow::~MainWindow()
 
 void MainWindow::keyPressEvent(QKeyEvent *event)
 {
-    char tecla = char(event->key());
-    std::cout<<tecla<<std::endl;
-    if(tecla == 'W'){
-        if(corSetada==1){
-            acerto+=1;
-            gettimeofday(&tempo_final, NULL);
-            tempo += (int) (1000 * (tempo_final.tv_sec - tempo_inicial.tv_sec) + (tempo_final.tv_usec - tempo_inicial.tv_usec) / 1000);
-            cout<<tempo;
-            pausa();
+    if (teste>0){
+        char tecla = char(event->key());
+        std::cout<<tecla<<std::endl;
+        if(tecla == 'W'){
+            if(corSetada==1){
+                acerto+=1;
+                ui->pontuacao->display(acerto);
+                gettimeofday(&tempo_final, NULL);
+                tempo =(float) (1000 * (tempo_final.tv_sec - tempo_inicial.tv_sec) + (tempo_final.tv_usec - tempo_inicial.tv_usec) / 1000)/1000;
+                mediaTempoReacao += tempo;
+                ui->Tempo->setText(QString::number(tempo)+"s");
+                pausa();
+            }
+            else{
+                vidas-=1;
+                ui->vida->display(vidas);
+                ui->Tempo->setText("errou");
+            }
         }
-        else{
-            vidas-=1;
+        if(tecla == 'S'){
+            if(corSetada==2){
+                acerto+=1;
+                ui->pontuacao->display(acerto);
+                gettimeofday(&tempo_final, NULL);
+                tempo = (float) (1000 * (tempo_final.tv_sec - tempo_inicial.tv_sec) + (tempo_final.tv_usec - tempo_inicial.tv_usec) / 1000)/1000;
+                mediaTempoReacao += tempo;
+                ui->Tempo->setText(QString::number(tempo)+"s");
+                pausa();
+            }
+            else{
+                vidas-=1;
+                ui->vida->display(vidas);
+                ui->Tempo->setText("errou");
+            }
         }
-    }
-    if(tecla == 'S'){
-        if(corSetada==2){
-            acerto+=1;
-            gettimeofday(&tempo_final, NULL);
-            tempo += (int) (1000 * (tempo_final.tv_sec - tempo_inicial.tv_sec) + (tempo_final.tv_usec - tempo_inicial.tv_usec) / 1000);
-            cout<<tempo;
-            pausa();
+        if(tecla == 'A'){
+            if(corSetada==3){
+                acerto+=1;
+                ui->pontuacao->display(acerto);
+                gettimeofday(&tempo_final, NULL);
+                tempo = (float) (1000 * (tempo_final.tv_sec - tempo_inicial.tv_sec) + (tempo_final.tv_usec - tempo_inicial.tv_usec) / 1000)/1000;
+                mediaTempoReacao += tempo;
+                ui->Tempo->setText(QString::number(tempo)+"s");
+                pausa();
+            }
+            else{
+                vidas-=1;
+                ui->vida->display(vidas);
+                ui->Tempo->setText("errou");
+            }
         }
-        else{
-            vidas-=1;
+        if(tecla == 'D'){
+            if(corSetada==4){
+                acerto+=1;
+                ui->pontuacao->display(acerto);
+                gettimeofday(&tempo_final, NULL);
+                tempo = (float) (1000 * (tempo_final.tv_sec - tempo_inicial.tv_sec) + (tempo_final.tv_usec - tempo_inicial.tv_usec) / 1000)/1000;
+                mediaTempoReacao += tempo;
+                ui->Tempo->setText(QString::number(tempo)+"s");
+                pausa();
+            }
+            else{
+                vidas-=1;
+                ui->vida->display(vidas);
+                ui->Tempo->setText("errou");
+            }
         }
-    }
-    if(tecla == 'A'){
-        if(corSetada==3){
-            acerto+=1;
-            gettimeofday(&tempo_final, NULL);
-            tempo += (int) (1000 * (tempo_final.tv_sec - tempo_inicial.tv_sec) + (tempo_final.tv_usec - tempo_inicial.tv_usec) / 1000);
-            cout<<tempo;
-            pausa();
-        }
-        else{
-            vidas-=1;
-        }
-    }
-    if(tecla == 'D'){
-        if(corSetada==4){
-            acerto+=1;
-            gettimeofday(&tempo_final, NULL);
-            tempo += (int) (1000 * (tempo_final.tv_sec - tempo_inicial.tv_sec) + (tempo_final.tv_usec - tempo_inicial.tv_usec) / 1000);
-            cout<<tempo;
-            pausa();
-        }
-        else{
-            vidas-=1;
-        }
+        teste--;
     }
 
-    cout<<endl;
-    cout<<"Potuacao"<<acerto<<endl;
-    cout<<"tenho"<<vidas<<"vidas"<<endl;
-    if(vidas<0){
+    else if(vidas==0){
         finshGame();
     }
+    else {
+        finshGame();
+        ui->media->setText(" Tempo médio foi de "+QString::number(mediaTempoReacao/acerto)+"s");
+
+    }
+
 
 }
 
@@ -102,7 +124,7 @@ void MainWindow::paintEvent(QPaintEvent *event)
     brush.setStyle(Qt::SolidPattern);
     painter.setBrush(brush);
     if(start){
-        painter.drawEllipse(x,y,50,50);
+        painter.drawEllipse(x,y,100,100);
     }
 
 
@@ -110,8 +132,11 @@ void MainWindow::paintEvent(QPaintEvent *event)
 
 void MainWindow::pausa()
 {
-    int intervalo[5] = {1000,2000,3000,4000,5000};
-    int tempoSetado = intervalo[rand()%5];
+    if(vidas==0){
+        finshGame();
+    }
+    int intervalo[3] = {1000,2000,3000};
+    int tempoSetado = intervalo[rand()%3];
     start= false;
     repaint();
     Sleep(tempoSetado);
@@ -122,6 +147,7 @@ void MainWindow::pausa()
 
 void MainWindow::setColor()
 {
+    gettimeofday(&tempo_inicial, NULL);
     int vetor[4]={1,2,3,4};
     corSetada = vetor[rand()%4];
     if (corSetada == 1){
@@ -150,8 +176,8 @@ void MainWindow::setColor()
 
 void MainWindow::startGame()
 {
-    gettimeofday(&tempo_inicial, NULL);
     vidas = 9;
+    ui->vida->display(vidas);
     acerto = 0;
     start=true;
     setColor();
@@ -159,6 +185,8 @@ void MainWindow::startGame()
 
 void MainWindow::finshGame()
 {
+    vidas=0;
+    ui->vida->display(vidas);
     start=false;
     repaint();
 }
