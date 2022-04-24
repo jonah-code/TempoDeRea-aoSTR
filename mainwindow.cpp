@@ -177,6 +177,7 @@ void MainWindow::setColor()
 void MainWindow::startGame()
 {
     vidas = 9;
+    teste =10;
     ui->vida->display(vidas);
     acerto = 0;
     start=true;
