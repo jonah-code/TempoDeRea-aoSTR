@@ -33,66 +33,42 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
         std::cout<<tecla<<std::endl;
         if(tecla == 'W'){
             if(corSetada==1){
-                acerto+=1;
-                ui->pontuacao->display(acerto);
-                gettimeofday(&tempo_final, NULL);
-                tempo =(float) (1000 * (tempo_final.tv_sec - tempo_inicial.tv_sec) + (tempo_final.tv_usec - tempo_inicial.tv_usec) / 1000)/1000;
-                mediaTempoReacao += tempo;
-                ui->Tempo->setText(QString::number(tempo)+"s");
-                pausa();
+                acertou();
             }
             else{
                 vidas-=1;
                 ui->vida->display(vidas);
-                ui->Tempo->setText("errou");
+                ui->Tempo->setText("ERROU");
             }
         }
         if(tecla == 'S'){
             if(corSetada==2){
-                acerto+=1;
-                ui->pontuacao->display(acerto);
-                gettimeofday(&tempo_final, NULL);
-                tempo = (float) (1000 * (tempo_final.tv_sec - tempo_inicial.tv_sec) + (tempo_final.tv_usec - tempo_inicial.tv_usec) / 1000)/1000;
-                mediaTempoReacao += tempo;
-                ui->Tempo->setText(QString::number(tempo)+"s");
-                pausa();
+                acertou();
             }
             else{
                 vidas-=1;
                 ui->vida->display(vidas);
-                ui->Tempo->setText("errou");
+                ui->Tempo->setText("ERROU");
             }
         }
         if(tecla == 'A'){
             if(corSetada==3){
-                acerto+=1;
-                ui->pontuacao->display(acerto);
-                gettimeofday(&tempo_final, NULL);
-                tempo = (float) (1000 * (tempo_final.tv_sec - tempo_inicial.tv_sec) + (tempo_final.tv_usec - tempo_inicial.tv_usec) / 1000)/1000;
-                mediaTempoReacao += tempo;
-                ui->Tempo->setText(QString::number(tempo)+"s");
-                pausa();
+               acertou();
             }
             else{
                 vidas-=1;
                 ui->vida->display(vidas);
-                ui->Tempo->setText("errou");
+                ui->Tempo->setText("ERROU");
             }
         }
         if(tecla == 'D'){
             if(corSetada==4){
-                acerto+=1;
-                ui->pontuacao->display(acerto);
-                gettimeofday(&tempo_final, NULL);
-                tempo = (float) (1000 * (tempo_final.tv_sec - tempo_inicial.tv_sec) + (tempo_final.tv_usec - tempo_inicial.tv_usec) / 1000)/1000;
-                mediaTempoReacao += tempo;
-                ui->Tempo->setText(QString::number(tempo)+"s");
-                pausa();
+                acertou();
             }
             else{
                 vidas-=1;
                 ui->vida->display(vidas);
-                ui->Tempo->setText("errou");
+                ui->Tempo->setText("ERROU");
             }
         }
         teste--;
@@ -103,7 +79,7 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
     }
     else {
         finshGame();
-        ui->media->setText(" Tempo médio foi de "+QString::number(mediaTempoReacao/acerto)+"s");
+        ui->media->setText(" TEMPO MEDIO FOI DE "+QString::number(mediaTempoReacao/acerto)+"s");
 
     }
 
@@ -114,8 +90,11 @@ void MainWindow::paintEvent(QPaintEvent *event)
 {
 
     int x, y;
-    x = (1+rand()%width());
-    y = (1+rand()%height());
+    //x = (1+rand()%width());
+    //y = (1+rand()%height());
+
+    x = (200+rand()%1000);
+    y = (200+rand()%500);
 
     QPainter painter(this);
     QBrush brush;
@@ -143,6 +122,17 @@ void MainWindow::pausa()
     start = true;
     setColor();
 
+}
+
+void MainWindow::acertou()
+{
+    acerto+=1;
+    ui->pontuacao->display(acerto);
+    gettimeofday(&tempo_final, NULL);
+    tempo =(float) (1000 * (tempo_final.tv_sec - tempo_inicial.tv_sec) + (tempo_final.tv_usec - tempo_inicial.tv_usec) / 1000)/1000;
+    mediaTempoReacao += tempo;
+    ui->Tempo->setText(QString::number(tempo)+"s");
+    pausa();
 }
 
 void MainWindow::setColor()
@@ -174,10 +164,11 @@ void MainWindow::setColor()
     repaint();
 }
 
+
 void MainWindow::startGame()
 {
     vidas = 9;
-    teste =10;
+    teste=10;
     ui->vida->display(vidas);
     acerto = 0;
     start=true;

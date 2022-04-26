@@ -25,6 +25,7 @@ public:
      void keyPressEvent(QKeyEvent *event);
      void paintEvent(QPaintEvent *event);
      void pausa();
+     void acertou();
      ~MainWindow();
 
 
