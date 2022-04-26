@@ -79,7 +79,7 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
     }
     else {
         finshGame();
-        ui->media->setText(" TEMPO MEDIO FOI DE "+QString::number(mediaTempoReacao/acerto)+"s");
+        ui->media->setText(" TEMPO MEDIO FOI DE "+QString::number(mediaTempoReacao/acerto)+" SEGUNDOS " +" E SEU SCORE FOI DE "+ QString::number(vidas)+"/10");
 
     }
 
@@ -167,7 +167,9 @@ void MainWindow::setColor()
 
 void MainWindow::startGame()
 {
-    vidas = 9;
+    ui->Tempo->setText("");
+    ui->media->setText("");
+    vidas = 10;
     teste=10;
     ui->vida->display(vidas);
     acerto = 0;
@@ -177,8 +179,6 @@ void MainWindow::startGame()
 
 void MainWindow::finshGame()
 {
-    vidas=0;
-    ui->vida->display(vidas);
     start=false;
     repaint();
 }
